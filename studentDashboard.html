@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pine</title>
+  <link rel="stylesheet" href="stdntDashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav>
+      <!-- Search Section -->
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="Search for books">
+    <button class="search-button">Search</button> 
+      </div>
+    </div> 
+      <ul class="nav-header">
+        <li id="home"><a href="#">Home</a></li>
+        <li id="fav"><a href="favorites.html">Bookmark</a></li>
+        <li id="app"><a href="appointment.html">Appointment</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <h1 class="title">
+    PINELibrary
+  </h1>
+
+<!-- Books Section -->
+<div class="book-panel">
+  <div class="book-grid" id="bookGrid">
+    <!-- Books will be dynamically inserted here -->
+  </div>
+</div>
+
+<!-- Book Preview Modal -->
+<div id="bookModal" class="book-modal">
+  <div class="modal-content">
+    <button id="closeModal" class="close-modal">&times;</button>
+    <button id="borrowModal" class="borrow-modal">Borrow</button>
+    <button id="favModal" class="fav-modal">Add to Favorites</button>
+    <div class="modal-body">
+      <img id="modalImage" src="" alt="">
+      <div class="modal-info">
+        <h2 id="modalTitle"></h2>
+        <p id="modalAuthor"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer class="footer">
+  <p>© 2025 PINELibrary</p>
+</footer>
+
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+    }
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+    }
+
+    const books = [
+  { title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "greatGatsby.jpg" },
+  { title: "To Kill a Mockingbird", author: "Harper Lee", image: "tokill.jpg" },
+  { title: "1984", author: "George Orwell", image: "1984.jpg" },
+  { title: "Moby Dick", author: "Herman Melville", image: "moby.jpg" },
+  { title: "Pride and Prejudice", author: "Jane Austen", image: "pride.jpg" },
+  { title: "The Hobbit", author: "J.R.R. Tolkien", image: "hobit.jpg" },
+  { title: "War and Peace", author: "Leo Tolstoy", image: "war.jpg" },
+  { title: "The Catcher in the Rye", author: "J.D. Salinger", image: "theCatch.jpg" },
+  { title: "Crime and Punishment", author: "Fyodor Dostoevsky", image: "crime.jpg" },
+  { title: "The Alchemist", author: "Paulo Coelho", image: "theAlchemist.jpg" },
+  { title: "Dune", author: "Frank Herbert", image: "dune.jpg" },
+  { title: "Brave New World", author: "Aldous Huxley", image: "braveNewWorld.jpg" },
+  { title: "Ryan walang tatay", author: "Arjay Pilay", image: "ryan.jpg" },
+  { title: "The Lord of the Rings", author: "J.R.R. Tolkien", image: "lordoftherings.jpg" },
+  { title: "Harry Potter and the Sorcerer's Stone", author: "J.K. Rowling", image: "harryPotter.jpg" },
+  { title: "The Hunger Games", author: "Suzanne Collins", image: "theHungerGames.jpg" },
+  { title: "Percy Jackson & The Lightning Thief", author: "Rick Riordan", image: "percyJackson.jpg" },
+  { title: "A Game of Thrones", author: "George R.R. Martin", image: "GameofThrones.jpg" },
+  { title: "The Chronicles of Narnia", author: "C.S. Lewis", image: "narnia.jpg" },
+  { title: "The Maze Runner", author: "James Dashner", image: "mazeRunner.jpg" },
+  { title: "Twilight", author: "Stephenie Meyer", image: "twilight.jpg" }
+];
+
+
+function displayBooks() {
+  const bookGrid = document.getElementById("bookGrid");
+  bookGrid.innerHTML = ""; // Clear existing books
+
+  books.forEach(book => {
+    const bookCard = document.createElement("div");
+    bookCard.classList.add("book-card");
+
+    bookCard.innerHTML = `
+      <img src="${book.image}" alt="${book.title}">
+      <h3>${book.title}</h3>
+      <p>Author: ${book.author}</p>
+    `;
+
+    // Add event listener to show popup on click
+    bookCard.addEventListener("click", () => showBookPreview(book));
+
+    bookGrid.appendChild(bookCard);
+  });
+}
+
+// Function to show book preview popup
+function showBookPreview(book) {
+  const modal = document.getElementById("bookModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalAuthor = document.getElementById("modalAuthor");
+  const modalImage = document.getElementById("modalImage");
+
+  modalTitle.textContent = book.title;
+  modalAuthor.textContent = `Author: ${book.author}`;
+  modalImage.src = book.image;
+  modalImage.alt = book.title;
+
+  modal.style.display = "flex"; // Show modal
+}
+
+// Close the modal when clicking the close button or outside the content
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("bookModal");
+  const closeModal = document.getElementById("closeModal");
+
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});
+
+// Load books on page load
+document.addEventListener("DOMContentLoaded", displayBooks);
+
+  </script>
+</body>
+</html>
